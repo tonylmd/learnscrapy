@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 import scrapy
 
+from ..items import BonnieItem
+
 
 class JazzspiderSpider(scrapy.Spider):
     name = "jazzspider"
@@ -8,8 +10,24 @@ class JazzspiderSpider(scrapy.Spider):
     start_urls = (
         'http://www.umbriajazz.com/pagine/programma-umbria-jazz',
     )
-
     def parse(self, response):
-        accordion text = response.xpath("//div[@id='accordion'}//ul//li")
-        print accordion text
-        return
+        accordions = response.xpath("//div[@id='accordion']//ul//li")
+        for accordion in accordions:
+            date = accordion.xpath(".//h1/text()").extract()
+
+            indoor = accordion.xpath(".//table[1]")
+            outdoor = accordion.xpath(".//table[2]")
+
+            for row in indoor.xpath(".//tr"):
+                concert = row.xpath(".//td").extract()
+                time = concert[0]
+                description = concert[1]
+
+                #Filling item
+                item = BonnieItem()
+                item['datetime'] = "%s %s" % (date, time)
+                item['description'] = description 
+                item['outdoor'] = False
+
+                yield item 
+                
