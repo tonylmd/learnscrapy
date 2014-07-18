@@ -13,7 +13,7 @@ class JazzspiderSpider(scrapy.Spider):
     def parse(self, response):
         accordions = response.xpath("//div[@id='accordion']//ul//li")
         for accordion in accordions:
-            date = accordion.xpath(".//h1/text()").extract()
+            date = accordion.xpath(".//h1/text()").extract()[0]
 
             indoor = accordion.xpath(".//table[1]")
             outdoor = accordion.xpath(".//table[2]")

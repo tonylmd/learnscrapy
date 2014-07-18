@@ -13,5 +13,9 @@ BOT_NAME = 'bonnie'
 SPIDER_MODULES = ['bonnie.spiders']
 NEWSPIDER_MODULE = 'bonnie.spiders'
 
+ITEM_PIPELINES = {
+    'bonnie.pipelines.BonniePipeline': 300
+}
+
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'bonnie (+http://www.yourdomain.com)'
